@@ -16,15 +16,17 @@ public class GithubWorkflowDemoApplication {
     class HelloWorldController {
         @GetMapping("/")
         public String hello() {
-            // Introducing a potential NullPointerException
-            String potentiallyNullString = getPotentiallyNullString();
-            potentiallyNullString.toString();
+            generateSonarIssue();
             return "Hello, World!";
         }
     }
 
-    private String getPotentiallyNullString() {
-        return null; // This will cause a NullPointerException when toString() is called
+    private void generateSonarIssue() {
+        try {
+            int divideByZero = 1 / 0; // This will cause an exception
+        } catch (Exception e) {
+            // Empty catch block is a common issue that SonarCloud will detect
+        }
     }
     
 }
