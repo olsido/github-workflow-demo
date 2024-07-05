@@ -16,12 +16,12 @@ public class GithubWorkflowDemoApplication {
     class HelloWorldController {
         @GetMapping("/")
         public String hello() {
-            generateSonarIssue();
+            generateDivideByZeroSonarIssue();
             return "Hello, World!";
         }
     }
 
-    private void generateSonarIssue() {
+    private void generateDivideByZeroSonarIssue() {
         try {
             int divideByZero = 1 / 0; // This will cause an exception
         } catch (Exception e) {
