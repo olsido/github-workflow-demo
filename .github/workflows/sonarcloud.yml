@@ -61,7 +61,33 @@ jobs:
           key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
           restore-keys: ${{ runner.os }}-maven
 
+      - name: Install jq
+        run: sudo apt-get install -y jq
+
       - name: Build and analyze with SonarCloud
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: mvn clean verify sonar:sonar -Dsonar.projectKey=olsido_github-workflow-demo -Dsonar.organization=olsido -Dsonar.host.url=https://sonarcloud.io -Dsonar.token=${{ secrets.SONAR_TOKEN }}
+
+      - name: Wait for SonarCloud analysis to be processed
+        run: sleep 60
+
+      - name: Check SonarCloud Quality Gate status
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        run: |
+          for i in {1..10}; do
+            status=$(curl -s -u $SONAR_TOKEN: "https://sonarcloud.io/api/qualitygates/project_status?projectKey=olsido_github-workflow-demo" | jq -r '.projectStatus.status')
+            if [ "$status" == "OK" ]; then
+              echo "Quality gate passed: $status"
+              exit 0
+            elif [ "$status" == "ERROR" ]; then
+              echo "Quality gate failed: $status"
+              exit 1
+            else
+              echo "Quality gate status: $status. Retrying in 30 seconds..."
+              sleep 30
+            fi
+          done
+          echo "Quality gate check failed: Timed out"
+          exit 1
