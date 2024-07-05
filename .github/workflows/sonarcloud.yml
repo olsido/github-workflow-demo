@@ -53,6 +53,9 @@ jobs:
         with:
           java-version: '17'
           distribution: 'temurin' # You can choose the distribution (e.g., 'temurin', 'zulu', 'adopt', etc.)
+
+      - name: Build with Maven
+        run: mvn clean compile
           
       - name: Analyze with SonarCloud
 
