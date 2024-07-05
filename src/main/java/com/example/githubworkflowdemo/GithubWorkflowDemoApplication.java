@@ -16,17 +16,17 @@ public class GithubWorkflowDemoApplication {
     class HelloWorldController {
         @GetMapping("/")
         public String hello() {
-            generateZeroSonarIssue();
+            generateSonarIssue();
             return "Hello, World!";
         }
     }
 
-    private void generateZeroSonarIssue() {
+    private void generateSonarIssue() {
         try {
             int divideByZero = 1 / 0; // This will cause an exception
         } catch (Exception e) {
             // Empty catch block is a common issue that SonarCloud will detect
         }
     }
-    
+
 }
