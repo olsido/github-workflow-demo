@@ -16,8 +16,15 @@ public class GithubWorkflowDemoApplication {
     class HelloWorldController {
         @GetMapping("/")
         public String hello() {
+            // Introducing a potential NullPointerException
+            String potentiallyNullString = getPotentiallyNullString();
+            potentiallyNullString.toString();
             return "Hello, World!";
         }
     }
 
+    private String getPotentiallyNullString() {
+        return null; // This will cause a NullPointerException when toString() is called
+    }
+    
 }
