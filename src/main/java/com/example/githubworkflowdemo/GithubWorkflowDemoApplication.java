@@ -16,6 +16,7 @@ public class GithubWorkflowDemoApplication {
     class HelloWorldController {
         @GetMapping("/")
         public String hello() {
+            final String myUnusedVariable = "unused variable";
             return "Hello, World!";
         }
     }
