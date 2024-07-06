@@ -18,7 +18,7 @@ class GithubWorkflowDemoApplicationTests {
     void testHelloWorld() {
         GithubWorkflowDemoApplication.HelloWorldController controller = new GithubWorkflowDemoApplication().new HelloWorldController();
         String response = controller.hello();
-        assertThat(response).isEqualTo("Hello, World 123!");
+        assertThat(response).isEqualTo("Hello, World!");
     }
 
 }
